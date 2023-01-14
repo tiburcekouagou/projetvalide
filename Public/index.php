@@ -45,30 +45,16 @@ $router->add('login', ['controller' => 'Route', 'action' => 'login']);
 $router->add('register', ['controller' => 'Route', 'action' => 'register']);
 $router->add('logout', ['controller' => 'Route', 'action' => 'logout']);
 $router->add('update', ['controller' => 'Route', 'action' => 'update']);
+$router->add('views', ['controller' => 'Route', 'action' => 'views']);
 
 $router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
 $router->add('{controller}/{action}');
 $router->add("{controller}/{id:\d+}/{action}");
 $router->add("admin/{controller}/{action}", ["namespace" => "Admin"]);
 
-// Display the routing table
-// echo '<pre>';
-// var_dump($router->getRoutes());
-// echo $_SERVER['QUERY_STRING'];
-// echo htmlspecialchars(print_r($router->getRoutes(), true));
-// echo '</pre>';
-// exit();
 
 // Match the requested route
 $url = $_SERVER['QUERY_STRING'];
-// echo 'url =>' . $url;
-// exit();
 
-
-// if ($router->match($url)) {
-//   var_dump($router->getParams());
-// } else {
-//   echo "No route found for URL '$url'";
-// }
 
 $router->dispatch($_SERVER["QUERY_STRING"]);

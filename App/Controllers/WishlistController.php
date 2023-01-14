@@ -80,14 +80,18 @@ class WishlistController {
     }
 
     public static function wishAction() {
-        session_start();
 
-        if(isset($_SESSION['user_id'])){
-           $user_id = $_SESSION['user_id'];
-        }else{
-           $user_id = '';
-        };
-        
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+         }
+         
+         $user_id = $_SESSION['user_id'];
+         
+         
+         
+         if(!isset($user_id)){
+            header('location:/login');
+         }
         
         
         if(isset($_POST['add_to_cart'])){
@@ -102,13 +106,7 @@ class WishlistController {
            $p_image = htmlspecialchars($p_image);
            $p_qty = $_POST['p_qty'];
            $p_qty = htmlspecialchars($p_qty);
-        //     session_start();
-
-        //    $pid = $_SESSION['pid']  ;
-        //    $p_name = $_SESSION['p_name']   ;
-        //    $p_price = $_SESSION['p_price']   ;
-        //    $p_image = $_SESSION['_image']   ;
-        //    $p_qty= $_SESSION['p_qty']   ;
+        
         
            $addToCard =  new  CardModel(); 
 

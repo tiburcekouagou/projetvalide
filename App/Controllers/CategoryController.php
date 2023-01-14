@@ -18,12 +18,10 @@ class CategoryController {
 
             session_start();
 
+
             if(isset($_SESSION['user_id'])){
                 $user_id = $_SESSION['user_id'];
-             }else{
-                $user_id = '';
-             };
-
+             }
            
             if(!isset($user_id)){
                   header('location:/login');
@@ -99,15 +97,13 @@ class CategoryController {
 
             session_start();
 
+
             if(isset($_SESSION['user_id'])){
                 $user_id = $_SESSION['user_id'];
-             }else{
-                $user_id = '';
-             };
-
+             }
            
             if(!isset($user_id)){
-                header('location:/login');
+                  header('location:/login');
             }
          
             $pid = htmlspecialchars($_POST['pid']);

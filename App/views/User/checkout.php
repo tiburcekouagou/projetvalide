@@ -1,67 +1,8 @@
 <?php
+use App\Controllers\CheckoutController;
+use App\Controllers\CardController;
 
-@include 'config.php';
-
-
-
-if(isset($_SESSION['user_id'])){
-   $user_id = $_SESSION['user_id'];
-}else{
-   $user_id = '';
-   header('location:/');
-};
-
-
-if(isset($_POST['order'])){
-   $user_id = $_SESSION['user_id'];
-   
-   if(!isset($user_id)){
-      header('location:/login');
-   };
-
-   $name = $_POST['name'];
-   $name = htmlspecialchars($name);
-   $number = $_POST['number'];
-   $number = htmlspecialchars($number);
-   $email = $_POST['email'];
-   $email = htmlspecialchars($email);
-   $method = $_POST['method'];
-   $method = htmlspecialchars($method);
-   $address = 'Appartement n°. '. $_POST['flat'] .' '. $_POST['street'] .' '. $_POST['city'] .' '. $_POST['state'] .' '. $_POST['country'] .' - '. $_POST['pin_code'];
-   $address = htmlspecialchars($address);
-   $placed_on = date('d-M-Y');
-
-   $cart_total = 0;
-   $cart_products[] = '';
-
-   $cart_query = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
-   $cart_query->execute([$user_id]);
-   if($cart_query->rowCount() > 0){
-      while($cart_item = $cart_query->fetch(PDO::FETCH_ASSOC)){
-         $cart_products[] = $cart_item['name'].' ( '.$cart_item['quantity'].' )';
-         $sub_total = ($cart_item['price'] * $cart_item['quantity']);
-         $cart_total += $sub_total;
-      };
-   };
-
-   $total_products = implode(', ', $cart_products);
-
-   $order_query = $conn->prepare("SELECT * FROM `orders` WHERE name = ? AND number = ? AND email = ? AND method = ? AND address = ? AND total_products = ? AND total_price = ?");
-   $order_query->execute([$name, $number, $email, $method, $address, $total_products, $cart_total]);
-
-   if($cart_total == 0){
-      $message[] = 'your cart is empty';
-   }elseif($order_query->rowCount() > 0){
-      $message[] = 'Commande déjà passée!';
-   }else{
-      $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on) VALUES(?,?,?,?,?,?,?,?,?)");
-      $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $total_products, $cart_total, $placed_on]);
-      $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
-      $delete_cart->execute([$user_id]);
-      $message[] = 'Commande passée avec succès !';
-   }
-
-}
+$checkoutAction = CheckoutController::checkoutAction();
 
 ?>
 
@@ -89,14 +30,15 @@ if(isset($_POST['order'])){
 
    <?php
       $cart_grand_total = 0;
-      $select_cart_items = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
-      $select_cart_items->execute([$user_id]);
-      if($select_cart_items->rowCount() > 0){
-         while($fetch_cart_items = $select_cart_items->fetch(PDO::FETCH_ASSOC)){
-            $cart_total_price = ($fetch_cart_items['price'] * $fetch_cart_items['quantity']);
-            $cart_grand_total += $cart_total_price;
+      $select_cart_items = CardController::select_cart();
+      if (isset($select_cart_items) && count($select_cart_items)) {
+         
+            foreach ($select_cart_items as $key => $value) {
+               
+                  $cart_total_price = ($value['price'] * $value['quantity']);
+                  $cart_grand_total += $cart_total_price;
    ?>
-   <p> <?= $fetch_cart_items['name']; ?> <span>(<?=$fetch_cart_items['price'].'€ x '. $fetch_cart_items['quantity']; ?>)</span> </p>
+   <p> <?= $value['name']; ?> <span>(<?=$value['price'].'€ x '. $value['quantity']; ?>)</span> </p>
    <?php
     }
    }else{
@@ -136,27 +78,27 @@ if(isset($_POST['order'])){
          </div>
          <div class="inputBox">
             <span>Maison:</span>
-            <input type="text" name="flat" placeholder="e.g. Maison Boni" class="box" required>
+            <input type="text" name="flat" placeholder="ex: Maison Boni" class="box" required>
          </div>
          <div class="inputBox">
             <span>Quartier :</span>
-            <input type="text" name="street" placeholder="e.g. Cadjehoun" class="box" required>
+            <input type="text" name="street" placeholder="ex: Cadjehoun" class="box" required>
          </div>
          <div class="inputBox">
             <span>Ville :</span>
-            <input type="text" name="city" placeholder="e.g. Cotonou" class="box" required>
+            <input type="text" name="city" placeholder="ex: Cotonou" class="box" required>
          </div>
          <div class="inputBox">
             <span>Département :</span>
-            <input type="text" name="state" placeholder="e.g. Littoral" class="box" required>
+            <input type="text" name="state" placeholder="ex: Littoral" class="box" required>
          </div>
          <div class="inputBox">
             <span>Pays :</span>
-            <input type="text" name="country" placeholder="e.g. Benin" class="box" required>
+            <input type="text" name="country" placeholder="ex: Benin" class="box" required>
          </div>
          <div class="inputBox">
             <span>Code pin :</span>
-            <input type="number" min="0" name="pin_code" placeholder="e.g. 123456" class="box" required>
+            <input type="number" min="0" name="pin_code" placeholder="ex: 123456" class="box" required>
          </div>
       </div>
 

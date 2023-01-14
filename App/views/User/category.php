@@ -25,6 +25,15 @@ $addAction = CategoryController::add();
    
 <?php include 'header.php'; ?>
 
+<section class="p-category">
+
+   <a href="/category?category=hamburges">Hamburgés</a>
+   <a href="/category?category=a-cote">A côtés</a>
+   <a href="/category?category=desserts">Désserts</a>
+   <a href="/category?category=boissons">Boissons</a>
+
+</section>
+
 <section class="products">
 
    <h1 class="title">Produits par catégorie</h1>

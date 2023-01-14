@@ -1,8 +1,8 @@
 <?php
 
 use App\Controllers\WishlistController;
-$wishAction = WishlistController::wishAction();
 
+$wishAction = WishlistController::wishAction();
 
 ?>
 

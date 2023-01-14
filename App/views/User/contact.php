@@ -1,7 +1,7 @@
 <?php
 use App\Controllers\ContactController;
 
-$sendAction = ContactController::sendMessage();
+// $sendAction = ContactController::sendMessage();
 
 
 ?>
@@ -30,7 +30,7 @@ $sendAction = ContactController::sendMessage();
 
    <h1 class="title">Entrer en contact avec nous</h1>
 
-   <form action="" method="POST">
+   <form action="contact/sendMessage" method="POST">
       <input type="text" name="name" class="box" required placeholder="Nom complet">
       <input type="email" name="email" class="box" required placeholder="Email">
       <input type="number" name="number" min="0" class="box" required placeholder="Numero de téléphone">

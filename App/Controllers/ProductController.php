@@ -10,6 +10,17 @@ class ProductController {
 
     public $getting;
 
+    public static function getOneProduct($pid){
+
+        
+        return $getting = ProductModel::getOneProduct($pid);
+        
+        if ($getting === false) {
+            echo 'Aucune donnée recupérer';
+        }
+      
+    }
+
     public static function getProduct(){
 
         
@@ -20,10 +31,22 @@ class ProductController {
         }
       
     }
+
     public static function getAllProduct(){
 
         
         return $getting = ProductModel::getAllProduct();
+
+        if ($getting === false) {
+            echo 'Aucune donnée recupérer';
+        }
+      
+    }
+
+    public static function searchProduct(){
+
+        
+        return $getting = ProductModel::searchProduct();
 
         if ($getting === false) {
             echo 'Aucune donnée recupérer';
@@ -38,12 +61,10 @@ class ProductController {
 
             session_start();
 
+
             if(isset($_SESSION['user_id'])){
                 $user_id = $_SESSION['user_id'];
-             }else{
-                $user_id = '';
-             };
-
+             }
            
             if(!isset($user_id)){
                   header('location:/login');
@@ -87,15 +108,13 @@ class ProductController {
 
             session_start();
 
+
             if(isset($_SESSION['user_id'])){
                 $user_id = $_SESSION['user_id'];
-             }else{
-                $user_id = '';
-             };
-
+             }
            
             if(!isset($user_id)){
-                header('location:/login');
+                  header('location:/login');
             }
          
             $pid = htmlspecialchars($_POST['pid']);

@@ -103,4 +103,5 @@ class CardModel extends Connexion {
         
     }
 
+
 }

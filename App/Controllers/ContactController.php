@@ -22,12 +22,7 @@ class ContactController{
          
             $select_message = ContactModel::selectMessage($name, $email, $number, $msg);
 
-            echo "<pre>";
-                print_r($select_message);
-            echo "<pre>";
-            exit();
-         
-            if($select_message->rowCount() > 0){
+            if(isset($select_message) && $select_message->rowCount() > 0){
                $message[] = '
                Message déjà envoyé !';
             }else{
@@ -35,6 +30,8 @@ class ContactController{
                 $insertMessage = ContactModel::sendMessage($name, $email, $number, $msg);
          
                $message[] = 'Message envoyé avec succès !';
+               header("Location:/contact");
+               
          
             }
          

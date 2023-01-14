@@ -17,10 +17,7 @@ class CardController {
 
             if(isset($_SESSION['user_id'])){
                 $user_id = $_SESSION['user_id'];
-             }else{
-                $user_id = '';
-             };
-
+             }
            
             if(!isset($user_id)){
                   header('location:/login');
@@ -66,10 +63,7 @@ class CardController {
 
             if(isset($_SESSION['user_id'])){
                 $user_id = $_SESSION['user_id'];
-             }else{
-                $user_id = '';
-             };
-
+             }
            
             if(!isset($user_id)){
                 header('location:/login');
@@ -127,13 +121,20 @@ class CardController {
     }
 
     public static function cardAction(){
-        session_start();
-        if(isset($_SESSION['user_id'])){
-            $user_id = $_SESSION['user_id'];
-         }else{
-            $user_id = '';
-           
+        // session_start();
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
          }
+         
+            $user_id = $_SESSION['user_id'];
+            
+         
+         
+         if(!isset($user_id)){
+            header('location:/login');
+         }
+
          
         
          

@@ -29,8 +29,8 @@ $add = ProductController::add();
 
 <section class="p-category">
 
-   <a href="/category?category=hamburges">Hamburges</a>
-   <a href="/category?category=a-cote">A côté</a>
+   <a href="/category?category=hamburges">Hamburgés</a>
+   <a href="/category?category=a-cote">A côtés</a>
    <a href="/category?category=desserts">Désserts</a>
    <a href="/category?category=boissons">Boissons</a>
 

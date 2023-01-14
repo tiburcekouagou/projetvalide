@@ -9,6 +9,19 @@ class ProductModel extends Connexion {
 
     public $connexion;
 
+    public  static function getOneProduct($pid) {
+
+        $connexion = new Connexion ;
+        $conn = $connexion->connect();
+        $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
+        $select_products->execute([$pid]);
+        if($select_products->rowCount() > 0){
+            $fetch_products = $select_products->fetch(PDO::FETCH_ASSOC);
+            return $fetch_products;
+            
+        }
+    }
+
     public  static function getProduct() {
 
         $connexion = new Connexion ;
@@ -20,8 +33,6 @@ class ProductModel extends Connexion {
             return $fetch_products;
             
         }
-    
-        return 'Aucune donnée récupérer';
     }
 
     public  static function getAllProduct() {
@@ -36,8 +47,6 @@ class ProductModel extends Connexion {
             return $fetch_products;
             
         }
-    
-        return 'Aucune donnée récupérer';
     }
 
     public static function getCategory($category_name) {
@@ -52,9 +61,24 @@ class ProductModel extends Connexion {
             return $fetch_products;
             
         }
-    
-        return 'Aucune donnée récupérer';
+    }
+
+    public static function searchProduct() {
+
+        $connexion = new Connexion ;
+        $conn = $connexion->connect();
+
+        if(isset($_POST['search_btn'])){
+            $search_box = $_POST['search_box'];
+            $search_box = htmlspecialchars($search_box);
+            $select_products = $conn->prepare("SELECT * FROM `products` WHERE name LIKE '%{$search_box}%' OR category LIKE '%{$search_box}%'");
+            $select_products->execute();
+        if($select_products->rowCount() > 0){
+            $fetch_products = $select_products->fetchAll(PDO::FETCH_ASSOC);
+            return $fetch_products;
+            
+        }
     }
 }
 
-
+}

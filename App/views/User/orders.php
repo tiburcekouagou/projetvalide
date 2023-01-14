@@ -32,8 +32,8 @@ use App\Controllers\OrdersController;
    <?php
    $fetch_orders = OrdersController::getOrders();
       
-   if (isset($fectch_orders)) {
-   foreach ($fectch_orders as $key => $value)  {   
+   if (isset($fetch_orders) && count($fetch_orders) > 0) {
+   foreach ($fetch_orders as $key => $value)  {   
    ?>
    <div class="box">
       <p> Effectuée le : <span><?= $value['placed_on']; ?></span> </p>
