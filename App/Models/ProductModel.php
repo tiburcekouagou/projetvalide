@@ -13,12 +13,7 @@ class ProductModel extends Connexion {
 
         $connexion = new Connexion ;
         $conn = $connexion->connect();
-
-<<<<<<< HEAD
         $select_products = $conn->prepare("SELECT * FROM `shop_db`.products   ORDER BY `id` DESC LIMIT 6" );
-=======
-        $select_products = $conn->prepare("SELECT * FROM `shop_db`.products  LIMIT 6 OFFSET 10");
->>>>>>> 89c64583f207f3ba044fa3e8eba61d5ff7433525
         $select_products->execute();
         if($select_products->rowCount() > 0){
             $fetch_products = $select_products->fetchAll(PDO::FETCH_ASSOC);
