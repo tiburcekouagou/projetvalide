@@ -86,4 +86,60 @@ class UserModel extends Connexion {
 
         return false;
     }
+
+ 
+    /**
+     * updateImage(), met à jour l'image;
+     */
+    public static function updateImage($image, $user_id) {
+        $connexion = new Connexion ;
+        $conn = $connexion->connect();
+
+        /**
+         * $sql, pour les requêtes vers la base de données
+         */
+        $sql = "UPDATE `users` SET image = ? WHERE id = ?";
+        $update_image = $conn->prepare($sql);
+        $update_image->execute([$image, $user_id]);
+
+       
+    }
+
+    /**
+     * updateImage(), met à jour l'image;
+     */
+    public static function updateProfile($name, $email, $user_id) {
+        $connexion = new Connexion ;
+        $conn = $connexion->connect();
+
+        /**
+         * $sql, pour les requêtes vers la base de données
+         */
+        $sql = "UPDATE `users` SET name = ?, email = ? WHERE id = ?";
+        $update_profile = $conn->prepare($sql);
+        $update_profile->execute([$name, $email, $user_id]);
+
+       
+    }
+
+    /**
+     * updateImage(), met à jour l'image;
+     */
+    public static function updatePass($confirm_pass, $user_id) {
+        $connexion = new Connexion ;
+        $conn = $connexion->connect();
+
+        /**
+         * $sql, pour les requêtes vers la base de données
+         */
+        $sql = "UPDATE `users` SET password = ? WHERE id = ?";
+        $update_pass_query = $conn->prepare($sql);
+        $update_pass_query->execute([$confirm_pass, $user_id]);
+
+       
+    }
+
+    
+
+   
 }
