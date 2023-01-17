@@ -22,7 +22,7 @@ if(isset($message)){
 
       <nav class="navbar">
          <ul style="display:flex; list-style: none;">
-            <li> <a href="/admin">Dashboard</a></li>
+            <li> <a href="/admin_home">Dashboard</a></li>
             <li> <a href="/admin_products">Produits</a></li>
             <li> <a href="/admin_orders">Commandes</a></li>
             <li> <a href="/admin_users">Utilisateurs</a></li>

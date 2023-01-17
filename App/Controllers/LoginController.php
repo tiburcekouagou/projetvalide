@@ -13,11 +13,7 @@ class LoginController {
     public $email;
     public $pass;
 
-    // public function __construct($email, $password) {
-    //     $this->email = $email;
-    //     $this->password = $password;
-    //     $this->usermodel = new UserModel();
-    // }
+   
 
     /**
      * verifyControl()
@@ -34,7 +30,7 @@ class LoginController {
             //    session_start();
                 $_SESSION['admin_id'] = $result[0]['id'];
                 $connexion = ProfileController::getUser();
-               header("Location:admin/home?msg=dashboard_admin");
+               header("Location:/admin_home?msg=dashboard_admin");
                exit();
             } 
 

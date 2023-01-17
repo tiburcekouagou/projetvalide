@@ -14,6 +14,7 @@ class UserModel extends Connexion {
      */
     public $connection;
 
+    public $id;
     public $name;
     public $email;
     public $pass;
@@ -37,6 +38,29 @@ class UserModel extends Connexion {
          */
         $inst = $connection->prepare($request);
         $inst->execute([$this->email]);
+        $result = $inst->fetchAll();
+        return $result;
+    }
+
+    /**
+     * verify()
+     */
+    public function verifyId($id) {
+        $this->id = $id;
+
+        /**
+         * 
+         */
+        $connection = $this->connect();
+        /**
+         * $request
+         */
+        $request = "SELECT * FROM `shop_db`.users WHERE id = ?;";
+        /**
+         * $inst
+         */
+        $inst = $connection->prepare($request);
+        $inst->execute([$this->id]);
         $result = $inst->fetchAll();
         return $result;
     }
@@ -128,6 +152,8 @@ class UserModel extends Connexion {
     public static function updatePass($confirm_pass, $user_id) {
         $connexion = new Connexion ;
         $conn = $connexion->connect();
+
+        $confirm_pass = password_hash($confirm_pass, PASSWORD_DEFAULT);
 
         /**
          * $sql, pour les requêtes vers la base de données

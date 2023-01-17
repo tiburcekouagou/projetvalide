@@ -1,26 +1,3 @@
-<?php
-
-@include 'config.php';
-use App\Controllers\Connexion;
-
-$connexion = new Connexion ;
-$conn = $connexion->connect();
-
-
-if(isset($_SESSION['user_id'])){
-   $user_id = $_SESSION['user_id'];
-}else{
-   $user_id = '';
-};
-
-// $user_id = $_SESSION['user_id'];
-
-// if(!isset($user_id)){
-//    header('location:/login');
-// }
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -49,14 +26,14 @@ if(isset($_SESSION['user_id'])){
          <img src="./ressources/images/delivery-boy.svg" alt="">
          <h3>Pourquoi nous choisir?</h3>
          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam, a quod, quis alias eius dignissimos pariatur laborum dolorem ad ullam iure, consequatur autem animi illo odit! Atque quia minima voluptatibus.</p>
-         <a href="route/contact" class="btn">Nous contacter</a>
+         <a href="/contact" class="btn">Nous contacter</a>
       </div>
 
       <div class="box">
          <img src="./ressources/images/about-banner.png" alt="">
          <h3>Ce que nous fournissons?</h3>
          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam, a quod, quis alias eius dignissimos pariatur laborum dolorem ad ullam iure, consequatur autem animi illo odit! Atque quia minima voluptatibus.</p>
-         <a href="route/shop" class="btn">Notre boutique</a>
+         <a href="/shop" class="btn">Notre boutique</a>
       </div>
 
    </div>

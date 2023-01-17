@@ -1,7 +1,7 @@
 <?php
 
 use App\Controllers\UpdateController;
-$updateProfile = UpdateController::updateProfile();
+// $updateProfile = UpdateController::updateProfile();
 
 
 
@@ -32,20 +32,20 @@ $updateProfile = UpdateController::updateProfile();
 
    <h1 class="title">Mettre à jour du profile</h1>
 
-   <form action="" method="POST" enctype="multipart/form-data">
-      <img src="./ressources/uploaded_img/<?= $_SESSION['user_image']; ?>" alt="">
+   <form action="/Update/updateProfile" method="POST" enctype="multipart/form-data">
+      <img src="./ressources/pictures_users/<?= $_SESSION['user_image']; ?>" alt="">
       <div class="flex">
          <div class="inputBox">
             <span>Nom d'utilisateur :</span>
-            <input type="text" name="name" value="<?=$_SESSION['user_name']; ?>" placeholder="update username" required class="box">
+            <input type="hidden" name="id" value="<?=$_SESSION['user_id']; ?>">
+            <input type="text" name="name" value="<?=$_SESSION['user_name']; ?>" placeholder="Mettre à jour le nom" required class="box">
             <span>Email :</span>
-            <input type="email" name="email" value="<?= $_SESSION ['user_email']; ?>" placeholder="update email" required class="box">
+            <input type="email" name="email" value="<?= $_SESSION ['user_email']; ?>" placeholder="Mettre à jour l'email" required class="box">
             <span>Mettre à jour la photo :</span>
             <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box">
-            <input type="hidden" name="old_image" value="<?= $fetch_profile['image']; ?>">
+            <input type="hidden" name="old_image" value="<?= $_SESSION['user_image']; ?>">
          </div>
          <div class="inputBox">
-            <input type="hidden" name="old_pass" value="<?= $fetch_profile['password']; ?>">
             <span>Ancien mot de passe :</span>
             <input type="password" name="update_pass" placeholder="Entre le mot de passe précedent" class="box">
             <span>Nouveau mot de passe :</span>

@@ -69,7 +69,7 @@ if(isset($message)){
       <div class="profile">
 
          <?php if (isset($_SESSION['user_id'])): ?>
-               <img src="./ressources/uploaded_img/<?= $_SESSION['user_image']; ?>" alt="">
+               <img src="./ressources/pictures_users/<?= $_SESSION['user_image']; ?>" alt="">
                <p><?= $_SESSION['user_name']; ?></p>
                
                <a href="/update" class="btn">Mise à jour/ Profile</a>

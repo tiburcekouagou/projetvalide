@@ -30,6 +30,7 @@ $router = new Core\Router();
 // echo get_class($router);
 
 // Add the routes
+//USERS ROUTES
 $router->add('', ['controller' => 'Route', 'action' => 'home']);
 $router->add('about', ['controller' => 'Route', 'action' => 'about']);
 $router->add('shop', ['controller' => 'Route', 'action' => 'shop']);
@@ -46,6 +47,13 @@ $router->add('register', ['controller' => 'Route', 'action' => 'register']);
 $router->add('logout', ['controller' => 'Route', 'action' => 'logout']);
 $router->add('update', ['controller' => 'Route', 'action' => 'update']);
 $router->add('views', ['controller' => 'Route', 'action' => 'views']);
+
+// ADMIN ROUTES
+$router->add('admin_home', ['controller' => 'AdminRoute', 'action' => 'admin_home']);
+$router->add('admin_products', ['controller' => 'AdminRoute', 'action' => 'admin_products']);
+$router->add('admin_orders', ['controller' => 'AdminRoute', 'action' => 'admin_orders']);
+$router->add('admin_users', ['controller' => 'AdminRoute', 'action' => 'admin_users']);
+$router->add('admin_contacts', ['controller' => 'AdminRoute', 'action' => 'admin_contacts']);
 
 $router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
 $router->add('{controller}/{action}');

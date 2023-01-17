@@ -18,10 +18,15 @@ class View {
     extract($args, EXTR_SKIP);
     
     $file = "../App/views/User/$view"; // relative to Core directory
+    $adminFile = "../App/views/Admin/$view"; // relative to Core directory
  
     if (is_readable($file)) {
       require $file;
-    } else {
+    } 
+    else if (is_readable($adminFile)) {
+      require $adminFile;
+    }
+    else {
       echo "$file not found";
     }
   }
