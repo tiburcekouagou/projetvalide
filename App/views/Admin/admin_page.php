@@ -1,14 +1,17 @@
 <?php
-
-@include 'config.php';
+use App\Controllers\AdminHomeController;
 
 session_start();
 
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:/login');
+if ($_SESSION['role'] !== 'admin' ) {
+   header('Location:/');
 }
+
+// $admin_id = $_SESSION['admin_id'];
+
+// if(!isset($admin_id)){
+//    header('location:/');
+// }
 
 ?>
 
@@ -40,95 +43,92 @@ if(!isset($admin_id)){
       <div class="box">
       <?php
          $total_pendings = 0;
-         $select_pendings = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
-         $select_pendings->execute(['pending']);
-         while($fetch_pendings = $select_pendings->fetch(PDO::FETCH_ASSOC)){
-            $total_pendings += $fetch_pendings['total_price'];
-         };
+         $fetch_pendings = AdminHomeController::selectPendings();
+         if (isset($fetch_pendings) && count($fetch_pendings) > 0) {
+            foreach ($fetch_pendings as $key => $value) {
+               $total_pendings += $value['total_price'];
+            }
+         }
+        
       ?>
       <h3><?= $total_pendings; ?>€</h3>
-      <p>Total des attentes</p>
-      <a href="/admin_orders" class="btn">Voir les commandes</a>
+      <p>Total des commandes en attentes</p>
+      <a href="/admin_orders" class="btn">Voir commandes</a>
       </div>
 
       <div class="box">
       <?php
          $total_completed = 0;
-         $select_completed = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
-         $select_completed->execute(['completed']);
-         while($fetch_completed = $select_completed->fetch(PDO::FETCH_ASSOC)){
-            $total_completed += $fetch_completed['total_price'];
-         };
+         $fetch_completed = AdminHomeController::selectCompleted();
+         
+         if (isset($fetch_completed) && count($fetch_completed) > 0) {
+            foreach ($fetch_completed as $key => $value) {
+               $total_completed += $value['total_price'];
+            }
+         }
+        
       ?>
       <h3><?= $total_completed; ?>€</h3>
-      <p>Commandes terminées</p>
-      <a href="/admin_orders" class="btn">Voir les commandes</a>
+      <p>Total des commandes terminées</p>
+      <a href="/admin_orders" class="btn">Voir commandes</a>
       </div>
 
       <div class="box">
       <?php
-         $select_orders = $conn->prepare("SELECT * FROM `orders`");
-         $select_orders->execute();
-         $number_of_orders = $select_orders->rowCount();
+        
+         $number_of_orders = AdminHomeController::numberOfOrders();
       ?>
       <h3><?= $number_of_orders; ?></h3>
-      <p>Commandes passées</p>
-      <a href="/admin_orders" class="btn">Voir les commandes</a>
+      <p>Nombres de commandes passées</p>
+      <a href="/admin_orders" class="btn">Voir commandes</a>
       </div>
 
       <div class="box">
       <?php
-         $select_products = $conn->prepare("SELECT * FROM `products`");
-         $select_products->execute();
-         $number_of_products = $select_products->rowCount();
+         $number_of_products = AdminHomeController::numberOfProducts();
       ?>
       <h3><?= $number_of_products; ?></h3>
-      <p>Produits ajoutés</p>
-      <a href="/admin_products" class="btn">Voir les produits</a>
+      <p>Nombre de produits ajoutés</p>
+      <a href="/admin_products" class="btn">Voir produits</a>
       </div>
 
       <div class="box">
       <?php
-         $select_users = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
-         $select_users->execute(['user']);
-         $number_of_users = $select_users->rowCount();
-      ?>
+         $number_of_users = AdminHomeController::numberOfUsers();
+         ?>
       <h3><?= $number_of_users; ?></h3>
       <p>Nombre total d'utilisateurs</p>
       <a href="/admin_users" class="btn">Voir les comptes</a>
-      </div>
-
-      <div class="box">
+   </div>
+   
+   <div class="box">
       <?php
-         $select_admins = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
-         $select_admins->execute(['admin']);
-         $number_of_admins = $select_admins->rowCount();
-      ?>
+         $number_of_admins = AdminHomeController::numberOfAdmins();
+         
+         ?>
       <h3><?= $number_of_admins; ?></h3>
       <p>Nombre total d'administrateurs</p>
-      <a href="/admin_users" class="btn">Voir les comptes</a>
-      </div>
-
-      <div class="box">
+      <a href="/admin_users" class="btn">Voir comptes</a>
+   </div>
+   
+   <div class="box">
       <?php
-         $select_accounts = $conn->prepare("SELECT * FROM `users`");
-         $select_accounts->execute();
-         $number_of_accounts = $select_accounts->rowCount();
+         $number_of_accounts = AdminHomeController::numberOfAccounts();
+         
       ?>
       <h3><?= $number_of_accounts; ?></h3>
       <p>Nombre de comptes total</p>
-      <a href="/admin_users" class="btn">Voir les comptes</a>
+      <a href="/admin_users" class="btn">Voir comptes</a>
       </div>
 
       <div class="box">
       <?php
-         $select_messages = $conn->prepare("SELECT * FROM `message`");
-         $select_messages->execute();
-         $number_of_messages = $select_messages->rowCount();
+         $number_of_messages = AdminHomeController::numberOfMessages();
+         
       ?>
       <h3><?= $number_of_messages; ?></h3>
       <p>Nombre total de messages</p>
-      <a href="/admin_contacts" class="btn">Voir les messages</a>
+      <a href="/admin_contacts" class="btn">Voir messages</a>
       </div>
 
    </div>

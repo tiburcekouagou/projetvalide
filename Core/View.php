@@ -19,6 +19,7 @@ class View {
     
     $file = "../App/views/User/$view"; // relative to Core directory
     $adminFile = "../App/views/Admin/$view"; // relative to Core directory
+    $notFound = "../Logs/404.php"; //relative to not found page
  
     if (is_readable($file)) {
       require $file;
@@ -27,7 +28,7 @@ class View {
       require $adminFile;
     }
     else {
-      echo "$file not found";
+      require $notFound;
     }
   }
 }

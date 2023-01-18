@@ -1,73 +1,12 @@
 <?php
+use App\Controllers\ProductController;
+use App\Controllers\AdminProductsController;
 
-@include 'config.php';
-
-session_start();
-
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:/login');
-};
-
-if(isset($_POST['add_product'])){
-
-   $name = $_POST['name'];
-   $name =  htmlspecialchars($name);
-   $price = $_POST['price'];
-   $price =  htmlspecialchars($price);
-   $category = $_POST['category'];
-   $category = htmlspecialchars($category);
-   $details = $_POST['details'];
-   $details = htmlspecialchars($details);
-
-   $image = $_FILES['image']['name'];
-   $image = htmlspecialchars($image);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = './ressources/uploaded_img/'.$image;
-
-   $select_products = $conn->prepare("SELECT * FROM `products` WHERE name = ?");
-   $select_products->execute([$name]);
-
-   if($select_products->rowCount() > 0){
-      $message[] = 'Le nom du produit existe déjà !';
-   }else{
-
-      $insert_products = $conn->prepare("INSERT INTO `products`(name, category, details, price, image) VALUES(?,?,?,?,?)");
-      $insert_products->execute([$name, $category, $details, $price, $image]);
-
-      if($insert_products){
-         if($image_size > 5000000){
-            $message[] = 'La taille de l\'image est trop grande !';
-         }else{
-            move_uploaded_file($image_tmp_name, $image_folder);
-            $message[] = 'Nouveau produit ajouté !';
-         }
-
-      }
-
-   }
-
-};
-
-if(isset($_GET['delete'])){
-
-   $delete_id = $_GET['delete'];
-   $select_delete_image = $conn->prepare("SELECT image FROM `products` WHERE id = ?");
-   $select_delete_image->execute([$delete_id]);
-   $fetch_delete_image = $select_delete_image->fetch(PDO::FETCH_ASSOC);
-   unlink('./ressources/uploaded_img/'.$fetch_delete_image['image']);
-   $delete_products = $conn->prepare("DELETE FROM `products` WHERE id = ?");
-   $delete_products->execute([$delete_id]);
-   $delete_wishlist = $conn->prepare("DELETE FROM `wishlist` WHERE pid = ?");
-   $delete_wishlist->execute([$delete_id]);
-   $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE pid = ?");
-   $delete_cart->execute([$delete_id]);
-   header('location:/admin_products');
-
-
+if ($_SESSION['role'] !== 'admin' ) {
+   header('Location:/');
 }
+AdminProductsController::deleteProduct();
+
 
 ?>
 
@@ -93,7 +32,7 @@ if(isset($_GET['delete'])){
 
    <h1 class="title"> Ajouter un nouveau produit</h1>
 
-   <form action="" method="POST" enctype="multipart/form-data">
+   <form action="AdminProducts/insertProducts" method="POST" enctype="multipart/form-data">
       <div class="flex">
          <div class="inputBox">
          <input type="text" name="name" class="box" required placeholder="Entrez le nom du produit">
@@ -107,7 +46,7 @@ if(isset($_GET['delete'])){
          </div>
          <div class="inputBox">
          <input type="number" min="0" name="price" class="box" required placeholder="Entrez le prix du produit">
-         <input type="file" name="image" required class="box" accept="image/jpg, image/jpeg, image/png">
+         <input type="file" name="image"  class="box" accept="image/jpg, image/jpeg, image/png">
          </div>
       </div>
       <textarea name="details" class="box" required placeholder="Entrer les détails du produit" cols="30" rows="10"></textarea>
@@ -123,20 +62,22 @@ if(isset($_GET['delete'])){
    <div class="box-container">
 
    <?php
-      $show_products = $conn->prepare("SELECT * FROM `products`");
-      $show_products->execute();
-      if($show_products->rowCount() > 0){
-         while($fetch_products = $show_products->fetch(PDO::FETCH_ASSOC)){  
+      $select_products = ProductController::getAllProduct();
+
+
+      if(count($select_products) > 0){
+         foreach ($select_products as $key => $value) {
+         
    ?>
    <div class="box">
-      <div class="price">$<?= $fetch_products['price']; ?>/-</div>
-      <img src="./ressources/uploaded_img/<?= $fetch_products['image']; ?>" alt="">
-      <div class="name"><?= $fetch_products['name']; ?></div>
-      <div class="cat"><?= $fetch_products['category']; ?></div>
-      <div class="details"><?= $fetch_products['details']; ?></div>
+      <div class="price"><?= $value['price']; ?>€</div>
+      <img src="./ressources/products_images/<?= $value['image']; ?>" alt="">
+      <div class="name"><?= $value['name']; ?></div>
+      <div class="cat"><?= $value['category']; ?></div>
+      <div class="details"><?= $value['details']; ?></div>
       <div class="flex-btn">
-         <a href="/admin_update_product?update=<?= $fetch_products['id']; ?>" class="option-btn">Mettre à jour</a>
-         <a href="/admin_products?delete=<?= $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('Voulez-vous vraiment supprimer ce produit?');">Supprimer</a>
+         <a href="/admin_update_product?update=<?= $value['id']; ?>" class="option-btn">Mettre à jour</a>
+         <a href="/admin_products?delete=<?= $value['id']; ?>" name="delete" class="delete-btn" onclick="return confirm('Voulez-vous vraiment supprimer ce produit?');">Supprimer</a>
       </div>
    </div>
    <?php
@@ -149,6 +90,8 @@ if(isset($_GET['delete'])){
    </div>
 
 </section>
+
+<!-- C'est un fruit très riches que tu peux prendre après avoir déguster un bon hamburger! -->
 
 
 

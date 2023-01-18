@@ -29,12 +29,14 @@ class LoginController {
            if($pass === true & $result[0]["user_type"] === "admin") {
             //    session_start();
                 $_SESSION['admin_id'] = $result[0]['id'];
+                $_SESSION['role'] = $result[0]['user_type'];
                 $connexion = ProfileController::getUser();
-               header("Location:/admin_home?msg=dashboard_admin");
+               header("Location:/");
                exit();
             } 
 
             elseif($pass === true & $result[0]["user_type"] !== "admin") {
+                $_SESSION['role'] = $result[0]['user_type'];
                 $connexion = ProfileController::getUser();
 
             

@@ -79,6 +79,69 @@ class ProductModel extends Connexion {
             
         }
     }
-}
+   
+    }
+
+    public function numberOfProducts(){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_products = $conn->prepare("SELECT * FROM `products`");
+         $select_products->execute();
+         $number_of_products = $select_products->rowCount();
+         return $number_of_products;
+    }
+
+    public static function selectProducts($name){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_products = $conn->prepare("SELECT * FROM `products` WHERE name = ?");
+        $select_products->execute([$name]);
+        $result = $select_products->rowCount();
+         
+        return $result;
+    }
+
+    public static function insertProducts($name, $category, $details, $price, $image){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $insert_products = $conn->prepare("INSERT INTO `products`(name, category, details, price, image) VALUES(?,?,?,?,?)");
+        $insert_products->execute([$name, $category, $details, $price, $image]);
+
+    }
+
+    public static function selectImage($delete_id){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_delete_image = $conn->prepare("SELECT image FROM `products` WHERE id = ?");
+        $select_delete_image->execute([$delete_id]);
+        $fetch_delete_image = $select_delete_image->fetch(PDO::FETCH_ASSOC);
+        return $fetch_delete_image;
+
+    }
+
+    public static function deleteAll($delete_id){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $delete_products = $conn->prepare("DELETE FROM `products` WHERE id = ?");
+        $delete_products->execute([$delete_id]);
+        
+        $delete_wishlist = $conn->prepare("DELETE FROM `wishlist` WHERE pid = ?");
+        $delete_wishlist->execute([$delete_id]);
+
+        $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE pid = ?");
+        $delete_cart->execute([$delete_id]);
+
+    }
 
 }
+

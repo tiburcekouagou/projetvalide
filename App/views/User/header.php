@@ -6,6 +6,8 @@
   if (session_status() == PHP_SESSION_NONE) {
    session_start();
   }
+
+  
   
 
 
@@ -70,14 +72,18 @@ if(isset($message)){
 
          <?php if (isset($_SESSION['user_id'])): ?>
                <img src="./ressources/pictures_users/<?= $_SESSION['user_image']; ?>" alt="">
-               <p><?= $_SESSION['user_name']; ?></p>
+               <p><?= $_SESSION['user_name']; ?> (<?= $_SESSION['role']; ?>)</p>
+               <?php if (isset($_SESSION['admin_id'])):?>
+                  <a href="/admin_home" class="option-btn">Dashboard</a>
+               <?php endif;?>
                
                <a href="/update" class="btn">Mise à jour/ Profile</a>
                <a href="/logout" class="delete-btn">Se déconnecter</a>
+
          
          <?php else: ?>
             <p class="flex-btn">Connectez-vous pour une meilleure expérience! 😋</p>
-            <a href="/login" class="btn">Se connecter</a>
+            <a href="/login" class="option-btn">Se connecter</a>
          <?php endif; ?>
       </div>
 

@@ -51,7 +51,7 @@ $addAction = CategoryController::add();
       <h2 style="color:green; text-transform: uppercase;"><?= $value['category']; ?></h2>
       <div class="price"><span><?= $value['price']; ?></span>€</div>
       <a href="/views?pid=<?= $value['id']; ?>" class="fas fa-eye"></a>
-      <img src="./ressources/uploaded_img/<?= $value['image']; ?>" alt="">
+      <img src="./ressources/products_images/<?= $value['image']; ?>" alt="">
       <div class="name"><?= $value['name']; ?></div>
       <input type="hidden" name="pid" value="<?= $value['id']; ?>">
       <input type="hidden" name="p_name" value="<?= $value['name']; ?>">

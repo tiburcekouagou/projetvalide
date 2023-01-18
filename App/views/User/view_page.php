@@ -28,6 +28,7 @@ $addAction = ProductController::add();
 <section class="quick-view">
 
    <h1 class="title">Vue rapide</h1>
+  
 
    <?php
       $pid = $_GET['pid'];
@@ -35,7 +36,7 @@ $addAction = ProductController::add();
    ?>
    <form action="" class="box" method="POST">
       <div class="price"><span><?= $select_products['price']; ?></span>€</div>
-      <img src="./ressources/uploaded_img/<?= $select_products['image']; ?>" alt="">
+      <img src="./ressources/products_images/<?= $select_products['image']; ?>" alt="">
       <div class="name"><?= $select_products['name']; ?></div>
       <div class="details"><?= $select_products['details']; ?></div>
       <input type="hidden" name="pid" value="<?= $select_products['id']; ?>">
@@ -46,12 +47,20 @@ $addAction = ProductController::add();
       <input type="submit" value="Ajouter à la liste d'envie" class="option-btn" name="add_to_wishlist">
       <input type="submit" value="Ajouter au panier" class="btn" name="add_to_cart">
    </form>
+
+   <button class="option-btn" id="go-back">Retour!</button>
+
 </section>
 
 
 
 <script src="./ressources/js/script.js"></script>
 <script src="https://kit.fontawesome.com/c4a535f47e.js"></script>
+<script>
+   document.getElementById('go-back').addEventListener('click', () => {
+  history.back();
+});
+</script>
 
 <?php include 'footer.php'; ?>
 

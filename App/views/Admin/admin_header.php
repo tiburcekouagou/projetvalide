@@ -1,5 +1,7 @@
 <?php
-
+if (session_status() == PHP_SESSION_NONE) {
+   session_start();
+}
 
 if(isset($message)){
    foreach($message as $message){
@@ -18,7 +20,7 @@ if(isset($message)){
 
    <div class="flex">
 
-      <a href="/admin" class="logo"> Administration<span>+</span></a>
+      <a href="/admin_home" class="logo"> Administration<span>+</span></a>
 
       <nav class="navbar">
          <ul style="display:flex; list-style: none;">
@@ -36,15 +38,12 @@ if(isset($message)){
       </div>
 
       <div class="profile">
-         <?php
-            $select_profile = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
-            $select_profile->execute([$admin_id]);
-            $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
-         ?>
-         <img src="./ressources/uploaded_img/<?= $fetch_profile['image']; ?>" alt="">
-         <p><?= $fetch_profile['name']; ?></p>
+         <img src="./ressources/pictures_users/<?= $_SESSION['user_image']; ?>" alt="">
+         <p><?= $_SESSION['user_name']; ?></p>
+         <a href="/" class="btn">Accueil</a>
          <a href="/admin_update_profile" class="btn">Mise À Jours/Profile</a>
-         <a href="/logout" class="delete-btn">Se déconnecter</a>
+         <a href="/logout" class="delete-btn option-btn">Se déconnecter</a>
+         
          <!-- <div class="flex-btn">
             <a href="login.php" class="option-btn">Se connecter</a>
             <a href="register.php" class="option-btn">S'inscrire</a>

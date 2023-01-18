@@ -69,8 +69,8 @@ class UpdateController {
                     $this->picturesImages();
                     
                 } else {
-                    echo "<script>alert('Ancien Mot De Passe Non Conforme')</script>";
                     header("Location:/update");
+                    echo "<script>alert('Ancien Mot De Passe Non Conforme')</script>";
                     exit();
                 }
             } else {
@@ -82,8 +82,8 @@ class UpdateController {
             if(password_verify($this->update_pass, $array[0]["password"])) {
                 $this->picturesImages();
             } else {
-                echo "<script>alert('Ce utilisateur existe déja')</script>";
                 header("Location:/update");
+                echo "<script>alert('Ce utilisateur existe déja')</script>";
                 exit();
             }
          }
@@ -94,8 +94,8 @@ class UpdateController {
 
     public function controlPassword() {
         if($this->new_pass !== $this->confirm_pass) {
-            echo "<script>alert('Mot de passe non conforme')</script>";
             header("Location:/update");
+            echo "<script>alert('Mot de passe non conforme')</script>";
             exit();
         }
         return false;
@@ -129,18 +129,18 @@ class UpdateController {
                     header("Location:/update");
                     exit();
                 } else {
-                    echo "<script> alert('Image non pris en charge') </script>";
                     header("Location:/update");
+                    echo "<script> alert('Image non pris en charge') </script>";
                     exit();
                 }
             } else {
-                echo "<script> alert('La aille de l\'image est trop grande') </script>";
                 header("Location:/update");
+                echo "<script> alert('La aille de l\'image est trop grande') </script>";
                 exit();
             }
         } else {
-            $msg = "Insérer une image ou modifier le format de l\'image";
             header("Location:/update");
+            echo "Insérer une image ou modifier le format de l\'image";
             exit();
         }
     }

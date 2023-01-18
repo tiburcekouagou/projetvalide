@@ -40,6 +40,43 @@ class OrdersModel{
         $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $total_products, $cart_total, $placed_on]);
      
     } 
+    public static function selectCompleted(){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_completed = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
+        $select_completed->execute(['Effectuer']);
+        if ($select_completed->rowCount() > 0) {
+            $fetch_completed = $select_completed->fetchAll(PDO::FETCH_ASSOC);
+            return $fetch_completed;
+        }
+     
+    } 
+    public static function selectPendings(){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_pendings = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
+        $select_pendings->execute(['En attente']);
+        if ($select_pendings->rowCount() > 0) {
+            $fetch_pendings = $select_pendings->fetchAll(PDO::FETCH_ASSOC);
+            return $fetch_pendings;
+        }
+     
+    } 
+    public static function numberOfOrders(){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_orders = $conn->prepare("SELECT * FROM `orders`");
+         $select_orders->execute();
+         $number_of_orders = $select_orders->rowCount();
+         return  $number_of_orders;
+     
+    } 
 
 
 }

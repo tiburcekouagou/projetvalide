@@ -166,6 +166,36 @@ class UserModel extends Connexion {
     }
 
     
+    public function numberOfUsers(){
 
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_users = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
+         $select_users->execute(['user']);
+         $number_of_users = $select_users->rowCount();
+         return $number_of_users;
+    }
+    public function numberOfAdmins(){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_admins = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
+         $select_admins->execute(['admin']);
+         $number_of_admins = $select_admins->rowCount();
+         return $number_of_admins;
+    }
+    public function numberOfAccounts(){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_accounts = $conn->prepare("SELECT * FROM `users`");
+         $select_accounts->execute();
+         $number_of_accounts = $select_accounts->rowCount();
+         return $number_of_accounts;
+    }
    
 }
+

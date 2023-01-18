@@ -129,7 +129,8 @@ class Router {
         echo "Controller class $controller not found.";
       }
     } else {
-      echo "No route matched";
+      require "../Logs/404.php";
+      // echo "No route matched";
     }
   }
 

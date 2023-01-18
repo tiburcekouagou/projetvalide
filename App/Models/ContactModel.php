@@ -23,4 +23,16 @@ class ContactModel {
         $select_message->execute([$name, $email, $number, $msg]);
 
     }
+
+    public static function numberOfMessages(){
+
+        $connexion = new Connexion();
+        $conn = $connexion->connect();
+
+        $select_messages = $conn->prepare("SELECT * FROM `message`");
+        $select_messages->execute();
+        $number_of_messages = $select_messages->rowCount();
+        return $number_of_messages;
+
+    }
 }
