@@ -7,11 +7,7 @@ session_start();
 if ($_SESSION['role'] !== 'admin' ) {
    header('Location:/');
 }
-$admin_id = $_SESSION['admin_id'];
 
-if(!isset($admin_id)){
-   header('location:/login');
-};
 
 if(isset($_POST['update_order'])){
 

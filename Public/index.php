@@ -54,6 +54,8 @@ $router->add('admin_products', ['controller' => 'AdminRoute', 'action' => 'admin
 $router->add('admin_orders', ['controller' => 'AdminRoute', 'action' => 'admin_orders']);
 $router->add('admin_users', ['controller' => 'AdminRoute', 'action' => 'admin_users']);
 $router->add('admin_contacts', ['controller' => 'AdminRoute', 'action' => 'admin_contacts']);
+$router->add('update_product', ['controller' => 'AdminRoute', 'action' => 'update_product']);
+$router->add('update_profile', ['controller' => 'AdminRoute', 'action' => 'update_profile']);
 
 $router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
 $router->add('{controller}/{action}');

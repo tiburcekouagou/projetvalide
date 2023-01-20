@@ -8,11 +8,7 @@ if ($_SESSION['role'] !== 'admin' ) {
    header('Location:/');
 }
 
-$admin_id = $_SESSION['admin_id'];
 
-if(!isset($admin_id)){
-   header('location:login.php');
-};
 
 if(isset($_POST['update_profile'])){
 
@@ -93,7 +89,7 @@ if(isset($_POST['update_profile'])){
    <h1 class="title">Mettre à jour le profil</h1>
 
    <form action="" method="POST" enctype="multipart/form-data">
-      <img src="./ressources/uploaded_img/<?= $fetch_profile['image']; ?>" alt="">
+      <img src="./ressources/products_images/<?= $fetch_profile['image']; ?>" alt="">
       <div class="flex">
          <div class="inputBox">
             <span>Nom d'utilisateur :</span>

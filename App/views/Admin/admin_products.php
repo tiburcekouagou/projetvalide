@@ -1,6 +1,7 @@
 <?php
 use App\Controllers\ProductController;
 use App\Controllers\AdminProductsController;
+session_start();
 
 if ($_SESSION['role'] !== 'admin' ) {
    header('Location:/');
@@ -76,7 +77,7 @@ AdminProductsController::deleteProduct();
       <div class="cat"><?= $value['category']; ?></div>
       <div class="details"><?= $value['details']; ?></div>
       <div class="flex-btn">
-         <a href="/admin_update_product?update=<?= $value['id']; ?>" class="option-btn">Mettre à jour</a>
+         <a href="/update_product?update=<?= $value['id']; ?>" class="option-btn">Mettre à jour</a>
          <a href="/admin_products?delete=<?= $value['id']; ?>" name="delete" class="delete-btn" onclick="return confirm('Voulez-vous vraiment supprimer ce produit?');">Supprimer</a>
       </div>
    </div>
