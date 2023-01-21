@@ -1,21 +1,18 @@
 <?php
 
 namespace App\Models;
-use App\Controllers\Connexion;
-use App\Controllers\CardController;
+use Core\Connexion;
+
 use PDO;
 
 class WishlistModel extends Connexion {
   
 
-    public $connexion;
-
    
 
     public  static function count_wishlist_items() {
         
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
         
         if(isset($_SESSION['user_id'])){
             $user_id = $_SESSION['user_id'];
@@ -33,8 +30,7 @@ class WishlistModel extends Connexion {
 
     public static function insertWishlist($user_id, $pid, $p_name, $p_price, $p_qty, $p_image){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
       
         $sql = "INSERT INTO `wishlist`(user_id, pid, name, price, image) VALUES(?,?,?,?,?)";
         $insert_cart = $conn->prepare($sql);
@@ -44,8 +40,7 @@ class WishlistModel extends Connexion {
 
     public  static function check_wishlist_numbers($p_name, $user_id) {
         
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
   
         $check_wishlist_numbers = $conn->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
         $check_wishlist_numbers->execute([$p_name, $user_id]);
@@ -56,8 +51,7 @@ class WishlistModel extends Connexion {
 
     public  static function delete_wishlist($p_name, $user_id) {
         
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $delete_wishlist = $conn->prepare("DELETE FROM `wishlist` WHERE name = ? AND user_id = ?");
         $delete_wishlist->execute([$p_name, $user_id]);
@@ -68,8 +62,7 @@ class WishlistModel extends Connexion {
 
     public static function showWishlist($user_id){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
        
         $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE user_id = ?");
         $select_wishlist->execute([$user_id]);
@@ -79,8 +72,7 @@ class WishlistModel extends Connexion {
 
     public static function delete_one_item ($delete_id){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
         
         $delete_wishlist_item = $conn->prepare("DELETE FROM `wishlist` WHERE id = ?");
         $delete_wishlist_item->execute([$delete_id]);
@@ -89,8 +81,7 @@ class WishlistModel extends Connexion {
 
     public static function delete_all_item ($user_id){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
         
         $delete_wishlist_item = $conn->prepare("DELETE FROM `wishlist` WHERE user_id = ?");
         $delete_wishlist_item->execute([$user_id]);

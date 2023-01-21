@@ -88,25 +88,25 @@ if(isset($_POST['update_profile'])){
 
    <h1 class="title">Mettre à jour le profil</h1>
 
-   <form action="" method="POST" enctype="multipart/form-data">
-      <img src="./ressources/products_images/<?= $fetch_profile['image']; ?>" alt="">
+   <form action="/AdminUpdateProfile/updateProfile" method="POST" enctype="multipart/form-data">
+      <img src="./ressources/pictures_users/<?= $_SESSION['user_image']; ?>" alt="">
       <div class="flex">
          <div class="inputBox">
             <span>Nom d'utilisateur :</span>
-            <input type="text" name="name" value="<?= $fetch_profile['name']; ?>" placeholder="Mettre à jour le nom d'utilisateur" required class="box">
+            <input type="hidden" name="id" value="<?=$_SESSION['user_id']; ?>">
+            <input type="text" name="name" value="<?=$_SESSION['user_name']; ?>" placeholder="Mettre à jour le nom" required class="box">
             <span>Email :</span>
-            <input type="email" name="email" value="<?= $fetch_profile['email']; ?>" placeholder="mettre à jour l'email" required class="box">
+            <input type="email" name="email" value="<?= $_SESSION ['user_email']; ?>" placeholder="Mettre à jour l'email" required class="box">
             <span>Mettre à jour la photo :</span>
             <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box">
-            <input type="hidden" name="old_image" value="<?= $fetch_profile['image']; ?>">
+            <input type="hidden" name="old_image" value="<?= $_SESSION['user_image']; ?>">
          </div>
          <div class="inputBox">
-            <input type="hidden" name="old_pass" value="<?= $fetch_profile['password']; ?>">
             <span>Ancien mot de passe :</span>
-            <input type="password" name="update_pass" placeholder="Entrer le mot de passe précédent" class="box">
+            <input type="password" name="update_pass" placeholder="Entre le mot de passe précedent" class="box">
             <span>Nouveau mot de passe :</span>
-            <input type="password" name="new_pass" placeholder="Entrez un nouveau mot de passe" class="box">
-            <span>Confirmez le mot de passe :</span>
+            <input type="password" name="new_pass" placeholder="Entrer le nouveau mot de passe" class="box">
+            <span>Confirmer le mot de passe :</span>
             <input type="password" name="confirm_pass" placeholder="Confirmer le nouveau mot de passe" class="box">
          </div>
       </div>

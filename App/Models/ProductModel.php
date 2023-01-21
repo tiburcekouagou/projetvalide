@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Controllers\Connexion;
+use Core\Connexion;
 use PDO;
 
 class ProductModel extends Connexion {
@@ -11,21 +11,23 @@ class ProductModel extends Connexion {
 
     public  static function getOneProduct($pid) {
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
+
         $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
         $select_products->execute([$pid]);
         if($select_products->rowCount() > 0){
             $fetch_products = $select_products->fetch(PDO::FETCH_ASSOC);
+        
             return $fetch_products;
             
         }
+        return  'AUcune donné récuperer';
     }
 
     public  static function getProduct() {
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
+
         $select_products = $conn->prepare("SELECT * FROM `shop_db`.products   ORDER BY `id` DESC LIMIT 6" );
         $select_products->execute();
         if($select_products->rowCount() > 0){
@@ -37,8 +39,7 @@ class ProductModel extends Connexion {
 
     public  static function getAllProduct() {
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
 
         $select_products = $conn->prepare("SELECT * FROM `shop_db`.products ORDER BY `id` DESC");
         $select_products->execute();
@@ -51,8 +52,7 @@ class ProductModel extends Connexion {
 
     public static function getCategory($category_name) {
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_products = $conn->prepare("SELECT * FROM `products` WHERE category = ?");
         $select_products->execute([$category_name]);
@@ -65,8 +65,7 @@ class ProductModel extends Connexion {
 
     public static function searchProduct() {
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         if(isset($_POST['search_btn'])){
             $search_box = $_POST['search_box'];
@@ -84,8 +83,7 @@ class ProductModel extends Connexion {
 
     public function numberOfProducts(){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_products = $conn->prepare("SELECT * FROM `products`");
          $select_products->execute();
@@ -95,8 +93,7 @@ class ProductModel extends Connexion {
 
     public static function selectProducts($name){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_products = $conn->prepare("SELECT * FROM `products` WHERE name = ?");
         $select_products->execute([$name]);
@@ -107,8 +104,7 @@ class ProductModel extends Connexion {
 
     public static function insertProducts($name, $category, $details, $price, $image){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $insert_products = $conn->prepare("INSERT INTO `products`(name, category, details, price, image) VALUES(?,?,?,?,?)");
         $insert_products->execute([$name, $category, $details, $price, $image]);
@@ -117,8 +113,7 @@ class ProductModel extends Connexion {
 
     public static function selectImage($delete_id){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_delete_image = $conn->prepare("SELECT image FROM `products` WHERE id = ?");
         $select_delete_image->execute([$delete_id]);
@@ -129,8 +124,7 @@ class ProductModel extends Connexion {
 
     public static function deleteAll($delete_id){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $delete_products = $conn->prepare("DELETE FROM `products` WHERE id = ?");
         $delete_products->execute([$delete_id]);
@@ -142,6 +136,22 @@ class ProductModel extends Connexion {
         $delete_cart->execute([$delete_id]);
 
     }
+
+    public static function updateProduct($name, $category, $details, $price, $image, $id){
+
+        $conn = parent::connect();
+
+        $updateProduct = $conn->prepare( "UPDATE `products` SET name = ?, category = ?, details = ?, price = ?, image = ? WHERE `products`.id = ? ;");
+        $updateProduct->execute([
+            $name, 
+            $category, 
+            $details, 
+            $price, 
+            $image, 
+            $id 
+        ]);
+
+    } 
 
 }
 

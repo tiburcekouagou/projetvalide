@@ -1,55 +1,8 @@
 <?php
-
-@include 'config.php';
-
 session_start();
 
 if ($_SESSION['role'] !== 'admin' ) {
    header('Location:/');
-}
-
-
-
-if(isset($_POST['update_product'])){
-
-   $pid = $_POST['pid'];
-   $name = $_POST['name'];
-   $name = htmlspecialchars($name);
-   $price = $_POST['price'];
-   $price = htmlspecialchars($price);
-   $category = $_POST['category'];
-   $category = htmlspecialchars($category);
-   $details = $_POST['details'];
-   $details = htmlspecialchars($details);
-
-   $image = $_FILES['image']['name'];
-   $image = htmlspecialchars($image);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = './ressources/uploaded_img/'.$image;
-   $old_image = $_POST['old_image'];
-
-   $update_product = $conn->prepare("UPDATE `products` SET name = ?, category = ?, details = ?, price = ? WHERE id = ?");
-   $update_product->execute([$name, $category, $details, $price, $pid]);
-
-   $message[] = 'Produit mis à jour avec succès !';
-
-   if(!empty($image)){
-      if($image_size > 5000000){
-         $message[] = 'La taille de l\'image est trop grande !';
-      }else{
-
-         $update_image = $conn->prepare("UPDATE `products` SET image = ? WHERE id = ?");
-         $update_image->execute([$image, $pid]);
-
-         if($update_image){
-            move_uploaded_file($image_tmp_name, $image_folder);
-            unlink('./ressources/uploaded_img/'.$old_image);
-            $message[] = 'Image mise à jour avec succès !';
-         }
-      }
-   }
-
 }
 
 ?>
@@ -74,41 +27,31 @@ if(isset($_POST['update_product'])){
 
 <section class="update-product">
 
-   <h1 class="title"> Mettre à jour le produit</h1>   
+   <h1 class="title"> Mettre à jour le produit</h1>  
+   
+   
 
-   <?php
-      $update_id = $_GET['update'];
-      $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
-      $select_products->execute([$update_id]);
-      if($select_products->rowCount() > 0){
-         while($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)){ 
-   ?>
-   <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="old_image" value="<?= $fetch_products['image']; ?>">
-      <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
-      <img src="./ressources/uploaded_img/<?= $fetch_products['image']; ?>" alt="">
-      <input type="text" name="name" placeholder="Entrez le nom du produit" required class="box" value="<?= $fetch_products['name']; ?>">
-      <input type="number" name="price" min="0" placeholder="Entrez le prix du produit" required class="box" value="<?= $fetch_products['price']; ?>">
+   <form action=" AdminUpdateProduct/updateProducts" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="old_image" value="<?= $fetch_product['image']; ?>">
+      <input type="hidden" name="pid" value="<?= $fetch_product['id']; ?>">
+      <img src="./ressources/products_images/<?= $fetch_product['image']; ?>" alt="">
+      <input type="text" name="name" placeholder="Entrez le nom du produit" required class="box" value="<?= $fetch_product['name']; ?>">
+      <input type="hidden" name="old_name" class="box" value="<?= $fetch_product['name']; ?>">
+      <input type="number" name="price" min="0" placeholder="Entrez le prix du produit" required class="box" value="<?= $fetch_product['price']; ?>">
       <select name="category" class="box" required>
-         <option selected><?= $fetch_products['category']; ?></option>
+         <option selected><?= $fetch_product['category']; ?></option>
          <option value="hamburges">Hamburgés</option>
          <option value="a-cote">A côté</option>
          <option value="desserts">Désserts</option>
          <option value="boissons">Boissons</option>
       </select>
-      <textarea name="details" required placeholder="Entrer le détail du produit" class="box" cols="30" rows="10"><?= $fetch_products['details']; ?></textarea>
-      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
+      <textarea name="details" required placeholder="Entrer le détail du produit" class="box" cols="30" rows="10"><?= $fetch_product['details']; ?></textarea>
+      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png" required>
       <div class="flex-btn">
          <input type="submit" class="btn" value="Mettre à jour le produit" name="update_product">
          <a href="/admin_products" class="option-btn">Retourner</a>
       </div>
    </form>
-   <?php
-         }
-      }else{
-         echo '<p class="empty">Aucun produit trouvé !</p>';
-      }
-   ?>
 
 </section>
 

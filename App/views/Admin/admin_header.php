@@ -3,16 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
    session_start();
 }
 
-if(isset($message)){
-   foreach($message as $message){
-      echo '
-      <div class="message">
-         <span>'.$message.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-   }
-}
 
 ?>
 
@@ -43,11 +33,6 @@ if(isset($message)){
          <a href="/" class="btn">Accueil</a>
          <a href="/update_profile" class="btn">Mise À Jours/Profile</a>
          <a href="/logout" class="delete-btn option-btn">Se déconnecter</a>
-         
-         <!-- <div class="flex-btn">
-            <a href="login.php" class="option-btn">Se connecter</a>
-            <a href="register.php" class="option-btn">S'inscrire</a>
-         </div> -->
       </div>
 
    </div>

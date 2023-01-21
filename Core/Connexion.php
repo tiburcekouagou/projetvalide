@@ -1,8 +1,9 @@
 <?php
-namespace App\Controllers;
+namespace Core;
 
 class Connexion {
-    public function connect() {
+
+    public static function connect() {
         /**
          * $DB_HOST 
          */
@@ -24,11 +25,11 @@ class Connexion {
             /**
              * 
              */
-            $connection = new \PDO($dsn, $USERNAME, $PASSWORD);
+            $conn = new \PDO($dsn, $USERNAME, $PASSWORD);
         
-            return $connection;
+            return $conn;
             
-        } catch(PDOException $e) {
+        } catch(\PDOException $e) {
             die('Erreur de connexion à la base de donnée:'.$e->getMessage());
         }
     }

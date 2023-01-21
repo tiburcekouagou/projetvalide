@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-use App\Controllers\Connexion;
+use Core\Connexion;
 use PDO;
 
 
@@ -94,8 +94,7 @@ class UserModel extends Connexion {
 
     public static function getUser(){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
       
         $user_email = $_SESSION ['user_email'];
         
@@ -116,8 +115,7 @@ class UserModel extends Connexion {
      * updateImage(), met à jour l'image;
      */
     public static function updateImage($image, $user_id) {
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
 
         /**
          * $sql, pour les requêtes vers la base de données
@@ -133,8 +131,7 @@ class UserModel extends Connexion {
      * updateImage(), met à jour l'image;
      */
     public static function updateProfile($name, $email, $user_id) {
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
 
         /**
          * $sql, pour les requêtes vers la base de données
@@ -150,8 +147,7 @@ class UserModel extends Connexion {
      * updateImage(), met à jour l'image;
      */
     public static function updatePass($confirm_pass, $user_id) {
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
 
         $confirm_pass = password_hash($confirm_pass, PASSWORD_DEFAULT);
 
@@ -165,36 +161,47 @@ class UserModel extends Connexion {
        
     }
 
-    
     public function numberOfUsers(){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_users = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
          $select_users->execute(['user']);
          $number_of_users = $select_users->rowCount();
          return $number_of_users;
     }
+
     public function numberOfAdmins(){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_admins = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
          $select_admins->execute(['admin']);
          $number_of_admins = $select_admins->rowCount();
          return $number_of_admins;
     }
+
     public function numberOfAccounts(){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_accounts = $conn->prepare("SELECT * FROM `users`");
          $select_accounts->execute();
          $number_of_accounts = $select_accounts->rowCount();
          return $number_of_accounts;
+    }
+
+    public static function select_all_users(){
+
+        $conn = parent::connect();
+
+        $select_users = $conn->prepare("SELECT * FROM `users`");
+        $select_users->execute();
+        if ($select_users->rowCount() > 0) {
+            $fetch_users = $select_users->fetchAll(PDO::FETCH_ASSOC);
+            return $fetch_users;
+        }
+
     }
    
 }

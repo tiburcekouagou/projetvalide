@@ -1,15 +1,14 @@
 <?php
 namespace App\Models;
-use App\Controllers\Connexion;
+use Core\Connexion;
 use PDO;
 
 
-class OrdersModel{
+class OrdersModel extends Connexion{
 
     public static function getOrders($user_id){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_orders = $conn->prepare("SELECT * FROM `shop_db`.orders WHERE user_id = ?");
         $select_orders->execute([$user_id]);
@@ -22,8 +21,7 @@ class OrdersModel{
 
     public static function orders($name, $number, $email, $method, $address, $total_products, $cart_total){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $order_query = $conn->prepare("SELECT * FROM `orders` WHERE name = ? AND number = ? AND email = ? AND method = ? AND address = ? AND total_products = ? AND total_price = ?");
         $order_query->execute([$name, $number, $email, $method, $address, $total_products, $cart_total]);
@@ -33,8 +31,7 @@ class OrdersModel{
 
     public static function insertOrders($user_id, $name, $number, $email, $method, $address, $total_products, $cart_total, $placed_on){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on) VALUES(?,?,?,?,?,?,?,?,?)");
         $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $total_products, $cart_total, $placed_on]);
@@ -42,8 +39,7 @@ class OrdersModel{
     } 
     public static function selectCompleted(){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_completed = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
         $select_completed->execute(['Effectuer']);
@@ -55,8 +51,7 @@ class OrdersModel{
     } 
     public static function selectPendings(){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_pendings = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
         $select_pendings->execute(['En attente']);
@@ -66,10 +61,23 @@ class OrdersModel{
         }
      
     } 
+
+    public static function selectAllOrders(){
+
+        $conn = parent::connect();
+
+        $select_orders = $conn->prepare("SELECT * FROM `orders` ");
+        $select_orders->execute();
+        if ($select_orders->rowCount() > 0) {
+            $fetch_orders = $select_orders->fetchAll(PDO::FETCH_ASSOC);
+            return $fetch_orders;
+        }
+     
+    } 
+
     public static function numberOfOrders(){
 
-        $connexion = new Connexion();
-        $conn = $connexion->connect();
+        $conn = parent::connect();
 
         $select_orders = $conn->prepare("SELECT * FROM `orders`");
          $select_orders->execute();
@@ -77,6 +85,23 @@ class OrdersModel{
          return  $number_of_orders;
      
     } 
+
+    public static function update_order($update_payment, $order_id){
+
+        $conn = parent::connect();
+   
+        $update_orders = $conn->prepare("UPDATE `orders` SET payment_status = ? WHERE id = ?");
+        $update_orders->execute([$update_payment, $order_id]);
+    }
+    
+
+    public static function delete_order($delete_id){
+
+        $conn = parent::connect();
+   
+        $delete_orders = $conn->prepare("DELETE FROM `orders` WHERE id = ?");
+        $delete_orders->execute([$delete_id]);
+    }
 
 
 }

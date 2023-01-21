@@ -56,7 +56,7 @@ $wishAction = WishlistController::wishAction();
       <i class="fas fa-eye" ></i>
 
       </a>
-      <img src="./ressources/uploaded_img/<?= $value['image']; ?>" alt="">
+      <img src="./ressources/products_images/<?= $value['image']; ?>" alt="">
       <div class="name"><?= $value['name']; ?></div>
       <div class="price"><?= $value['price']; ?>€</div>
       <input type="number" min="1" value="1" class="qty" name="p_qty">

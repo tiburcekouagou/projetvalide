@@ -1,26 +1,3 @@
-<?php
-
-@include 'config.php';
-
-session_start();
-
-if ($_SESSION['role'] !== 'admin' ) {
-   header('Location:/');
-}
-
-
-
-if(isset($_GET['delete'])){
-
-   $delete_id = $_GET['delete'];
-   $delete_users = $conn->prepare("DELETE FROM `users` WHERE id = ?");
-   $delete_users->execute([$delete_id]);
-   header('location:/admin_users');
-
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,22 +24,25 @@ if(isset($_GET['delete'])){
    <div class="box-container">
 
       <?php
-         $select_users = $conn->prepare("SELECT * FROM `users`");
-         $select_users->execute();
-         while($fetch_users = $select_users->fetch(PDO::FETCH_ASSOC)){
+
+        foreach ($fetch_users as $key => $value) {
       ?>
-      <div class="box" style="<?php if($fetch_users['id'] == $admin_id){ echo 'display:none'; }; ?>">
-         <img src="./ressources/uploaded_img/<?= $fetch_users['image']; ?>" alt="">
-         <p> Id utilisateur : <span><?= $fetch_users['id']; ?></span></p>
-         <p> Nom d'utilisateur : <span><?= $fetch_users['name']; ?></span></p>
-         <p> Email : <span><?= $fetch_users['email']; ?></span></p>
-         <p> Rôle : <span style=" color:<?php if($fetch_users['user_type'] == 'admin'){ echo 'orange'; }; ?>"><?= $fetch_users['user_type']; ?></span></p>
-         <a href="/admin_users?delete=<?= $fetch_users['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?');" class="delete-btn">Supprimer</a>
+      <div class="box">
+         <img src="./ressources/uploaded_img/<?= $value['image']; ?>" alt="">
+         <p> Id utilisateur : <span><?= $value['id']; ?></span></p>
+         <p> Nom d'utilisateur : <span><?= $value['name']; ?></span></p>
+         <p> Email : <span><?= $value['email']; ?></span></p>
+         <p> Rôle : <span style=" color:<?php if($value['user_type'] == 'admin'){ echo 'orange'; }; ?>"><?= $value['user_type']; ?></span></p>
+         <a href="/admin_users?delete=<?= $value['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?');" class="delete-btn">Supprimer</a>
       </div>
       <?php
       }
       ?>
    </div>
+   <?php
+   // A mettre en attribut dans une balise style .
+   // if($value['user_type'] == $_SESSION['role']){ echo 'display:none'; }; 
+   ?>
 
 </section>
 

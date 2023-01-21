@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Controllers\Connexion;
+use Core\Connexion;
 use App\Controllers\CardController;
 use PDO;
 
@@ -12,10 +12,8 @@ class CardModel extends Connexion {
 
     public  static function check_cart_numbers($p_name, $user_id) {
         
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
         // session_start();
-
         $check_cart_numbers = $conn->prepare("SELECT * FROM `shop_db`.cart WHERE name = ? AND user_id = ?");
         $check_cart_numbers->execute([$p_name, $user_id]);
 
@@ -25,10 +23,9 @@ class CardModel extends Connexion {
 
     public  static function count_cart_items() {
         
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
        
-        // session_start();
+        // session_start()
         if(isset($_SESSION['user_id'])){
             $user_id = $_SESSION['user_id'];
          }else{
@@ -46,10 +43,9 @@ class CardModel extends Connexion {
 
     public static function insertCard($user_id, $pid, $p_name, $p_price, $p_qty, $p_image){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
         // session_start();
-        
+    
         $sql = "INSERT INTO `shop_db`.cart(user_id, pid, name, price, quantity, image) VALUES(?,?,?,?,?,?)";
         $insert_cart = $conn->prepare($sql);
         $insert_cart->execute([$user_id, $pid, $p_name, $p_price, $p_qty, $p_image]);
@@ -58,8 +54,7 @@ class CardModel extends Connexion {
 
     public static function select_cart (){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+        $conn = parent::connect();
         // session_start();
         $user_id = $_SESSION['user_id'];
 
@@ -71,10 +66,8 @@ class CardModel extends Connexion {
 
     public static function delete_one_item ($delete_id){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
         
-
         $delete_cart_item = $conn->prepare("DELETE FROM `cart` WHERE id = ?");
         $delete_cart_item->execute([$delete_id]);
         
@@ -82,10 +75,8 @@ class CardModel extends Connexion {
 
     public static function delete_all_item ($user_id){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
         
-
         $delete_cart_item = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
         $delete_cart_item->execute([$user_id]);
         
@@ -93,10 +84,8 @@ class CardModel extends Connexion {
 
     public static function update_qty ($p_qty, $cart_id){
 
-        $connexion = new Connexion ;
-        $conn = $connexion->connect();
+         $conn = parent::connect();
         
-
         $update_qty = $conn->prepare("UPDATE `cart` SET quantity = ? WHERE id = ?");
         $update_qty->execute([$p_qty, $cart_id]);
        

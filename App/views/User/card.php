@@ -50,7 +50,7 @@ $cardAction = CardController::cardAction();
       <i class="fas fa-eye" ></i>
 
       </a>
-      <img src="./ressources/uploaded_img/<?= $value['image']; ?>" alt="">
+      <img src="./ressources/products_images/<?= $value['image']; ?>" alt="">
       <div class="name"><?= $value['name']; ?></div>
       <div class="price"><?= $value['price']; ?>€</div>
       <input type="hidden" name="cart_id" value="<?= $value['id']; ?>">

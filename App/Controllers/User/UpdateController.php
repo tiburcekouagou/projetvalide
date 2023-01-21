@@ -45,7 +45,7 @@ class UpdateController {
          $this->image_error = $_FILES["image"]["error"];
 
          $this->extensions = explode(".", $this->image_name);
-         $this->extension = strtolower(end($this->extensions));
+         $this->extensions = strtolower(end($this->extensions));
 
          $this->tableau_extensions = ['jpg', 'png', 'jpeg'];
          $this->size = 5000000;
@@ -102,7 +102,7 @@ class UpdateController {
     }
 
     public function picturesImages() {
-        if(in_array($this->extension, $this->tableau_extensions)) {
+        if(in_array($this->extensions, $this->tableau_extensions)) {
 
             if($this->image_size <= $this->size) {
 
@@ -111,7 +111,7 @@ class UpdateController {
                     $generate_name = uniqid("img-user-", true);
                     // pour générer img-user-63c6cc4e6e1d91.28889735
 
-                    $generate_result = $generate_name . "." . $this->extension;
+                    $generate_result = $generate_name . "." . $this->extensions;
                     // pour générer img-user-63c6cc4e6e1d91.28889735.extension de l'image
 
                     $parent = "../Public/ressources/pictures_users/$generate_result";

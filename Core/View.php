@@ -17,6 +17,9 @@ class View {
   public static function render($view, $args = []) {
     extract($args, EXTR_SKIP);
     
+
+    // print_r($args);
+    // exit();
     $file = "../App/views/User/$view"; // relative to Core directory
     $adminFile = "../App/views/Admin/$view"; // relative to Core directory
     $notFound = "../Logs/404.php"; //relative to not found page

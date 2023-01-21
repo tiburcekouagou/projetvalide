@@ -10,14 +10,7 @@ if ($_SESSION['role'] !== 'admin' ) {
 
 
 
-if(isset($_GET['delete'])){
 
-   $delete_id = $_GET['delete'];
-   $delete_message = $conn->prepare("DELETE FROM `message` WHERE id = ?");
-   $delete_message->execute([$delete_id]);
-   header('location:/admin_contacts');
-
-}
 
 ?>
 
@@ -45,18 +38,15 @@ if(isset($_GET['delete'])){
    <div class="box-container">
 
    <?php
-      $select_message = $conn->prepare("SELECT * FROM `message`");
-      $select_message->execute();
-      if($select_message->rowCount() > 0){
-         while($fetch_message = $select_message->fetch(PDO::FETCH_ASSOC)){
+if (isset($fetch_message) && count($fetch_message) > 0) {
+ foreach ($fetch_message as $key => $value) {
    ?>
    <div class="box">
-      <p> Id utilisateur : <span><?= $fetch_message['user_id']; ?></span> </p>
-      <p> Nom : <span><?= $fetch_message['name']; ?></span> </p>
-      <p> Numero : <span><?= $fetch_message['number']; ?></span> </p>
-      <p> Email : <span><?= $fetch_message['email']; ?></span> </p>
-      <p> Message : <span><?= $fetch_message['message']; ?></span> </p>
-      <a href="/admin_contacts?delete=<?= $fetch_message['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce message?');" class="delete-btn">Supprimer</a>
+      <p> Nom : <span><?= $value['name']; ?></span> </p>
+      <p> Numero : <span><?= $value['number']; ?></span> </p>
+      <p> Email : <span><?= $value['email']; ?></span> </p>
+      <p> Message : <span><?= $value['message']; ?></span> </p>
+      <a href="/admin_contacts?delete=<?= $value['id']; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce message?');" class="delete-btn">Supprimer</a>
    </div>
    <?php
          }
